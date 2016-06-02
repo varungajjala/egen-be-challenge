@@ -27,6 +27,14 @@ public class UserService {
 	}
 	
 	/**
+	 * Constructor for UserServiceTest class - for testing
+	 * @param dbName {@code String} database name to get connected to and retrieve the collection
+	 */
+	public UserService(MongoCollection<Document> db){
+		this.db = db;
+	}
+	
+	/**
 	 * createUser Service - creates user if the id is not present
 	 * 
 	 * @param json {@code String} the user details to enter into the database
@@ -34,7 +42,12 @@ public class UserService {
 	 * 	       error message {@code String} if there is an error 
 	 */
 	public String createUser(String json){
-		Document doc = Document.parse(json);
+		Document doc = null;
+		if (json != "" && json != null){
+			doc = Document.parse(json);
+		}else{
+			return "Error: empty input";
+		}
 		
 		try{
 			this.db.insertOne(doc);
@@ -73,7 +86,14 @@ public class UserService {
 	 *
 	 */
 	public String updateUser(String json){
-		Document doc = Document.parse(json);
+		Document doc = null;
+		
+		if( json != "" && json != null){
+			doc = Document.parse(json);
+		}else{
+			return null;
+		}
+		
 		String id = doc.get("id").toString();
 		Document userDoc = null;
 		
@@ -83,8 +103,6 @@ public class UserService {
 		}catch(Exception e){
 			userDoc = this.db.find(Filters.eq("id", id)).first();
 		}
-		
-		System.out.println(userDoc);
 		
 		if(userDoc != null){
 			this.db.updateOne(userDoc, new Document("$set",doc));
@@ -101,7 +119,7 @@ public class UserService {
 	 * @param dbName {@code String} database name to get connected to
 	 * @return the collection {@code MongoCollection<Document>}of users in the user table in the given database
 	 */
-	public MongoCollection<Document> getCollection(String dbName){
+	public static MongoCollection<Document> getCollection(String dbName){
 		
 		MongoClient mongo = new MongoClient("localhost",27017);
 		MongoDatabase db = mongo.getDatabase(dbName);
