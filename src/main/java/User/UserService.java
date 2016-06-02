@@ -45,6 +45,9 @@ public class UserService {
 		Document doc = null;
 		if (json != "" && json != null){
 			doc = Document.parse(json);
+			if(doc.get("id") == null){
+				return "Error: Invalid input";
+			}
 		}else{
 			return "Error: empty input";
 		}
@@ -123,8 +126,8 @@ public class UserService {
 		
 		MongoClient mongo = new MongoClient("localhost",27017);
 		MongoDatabase db = mongo.getDatabase(dbName);
-		MongoCollection<Document> collection = db.getCollection("user");
 		
+		MongoCollection<Document> collection = db.getCollection("user");
 		collection.createIndex(new Document("id", 1), new IndexOptions().unique(true));
 		
 		return collection;

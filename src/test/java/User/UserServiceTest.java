@@ -3,6 +3,7 @@
  */
 package User;
 
+
 import org.bson.Document;
 
 import com.mongodb.client.MongoCollection;
@@ -56,6 +57,17 @@ public class UserServiceTest extends TestCase {
         
         Assert.assertEquals("Number of documents should be 2 after the records are inserted", 2,
                 UserServiceTest.userService.getAllUsers().size());
+
+	}
+	
+	/**
+	 * Negative Test method for {@link User.UserService#createUser(java.lang.String)}.
+	 */
+	public void testCreateInvalidUser() {
+
+        String message = UserServiceTest.userService.createUser(testData.JSON_INVALID);
+        
+        Assert.assertEquals("error should be displayed", "Error: Invalid input",message);
 
 	}
 	
