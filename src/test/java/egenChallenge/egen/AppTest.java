@@ -28,7 +28,7 @@ public class AppTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		new App("testuser");
-		Thread.sleep(2000);
+		Thread.sleep(5000);
 	}
 
 	/* (non-Javadoc)
