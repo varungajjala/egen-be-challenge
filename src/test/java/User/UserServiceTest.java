@@ -48,12 +48,18 @@ public class UserServiceTest extends TestCase {
 	 */
 	public void testCreateUser() {
 
-        String message = UserServiceTest.userService.createUser(testData.JSON_LONG);
-        String message1 = UserServiceTest.userService.createUser(testData.JSON_SHORT);
-        
-        Assert.assertEquals("should display successfull message", "User created successfully", message);
-        
-        Assert.assertEquals("should display successfull message", "User created successfully", message1);
+        try {
+			UserServiceTest.userService.createUser(testData.JSON_LONG);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        try {
+			UserServiceTest.userService.createUser(testData.JSON_SHORT);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         Assert.assertEquals("Number of documents should be 2 after the records are inserted", 2,
                 UserServiceTest.userService.getAllUsers().size());
@@ -65,9 +71,15 @@ public class UserServiceTest extends TestCase {
 	 */
 	public void testCreateInvalidUser() {
 
-        String message = UserServiceTest.userService.createUser(testData.JSON_INVALID);
+        try {
+			UserServiceTest.userService.createUser(testData.JSON_INVALID);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
-        Assert.assertEquals("error should be displayed", "Error: Invalid input",message);
+        Assert.assertEquals("Number of documents should be 0", 0,
+                UserServiceTest.userService.getAllUsers().size());
 
 	}
 	
@@ -76,9 +88,15 @@ public class UserServiceTest extends TestCase {
 	 */
 	public void testCreateEmptyUser() {
 
-        String message = UserServiceTest.userService.createUser("");
+        try {
+			UserServiceTest.userService.createUser("");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
-        Assert.assertEquals("error should be displayed", "Error: empty input",message);
+        Assert.assertEquals("Number of documents should be 0", 0,
+                UserServiceTest.userService.getAllUsers().size());
 
 	}
 
@@ -88,7 +106,12 @@ public class UserServiceTest extends TestCase {
 	public void testGetAllUsers() {
 		Assert.assertEquals("Intially should be equal to 0", 0, UserServiceTest.userService.getAllUsers().size());
 		
-		UserServiceTest.userService.createUser(testData.JSON_LONG);
+		try {
+			UserServiceTest.userService.createUser(testData.JSON_LONG);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		Assert.assertEquals("After 1 insert should be 1", 1, UserServiceTest.userService.getAllUsers().size());		
 		
@@ -98,33 +121,78 @@ public class UserServiceTest extends TestCase {
 	 * Test method for {@link User.UserService#updateUser(java.lang.String)}.
 	 */
 	public void testUpdateUser() {
-		UserServiceTest.userService.createUser(testData.JSON_LONG);
+		try {
+			UserServiceTest.userService.createUser(testData.JSON_LONG);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-		String message = UserServiceTest.userService.updateUser(testData.JSON_LONG_UPDATED);
+		try {
+			UserServiceTest.userService.updateUser(testData.JSON_LONG_UPDATED);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
 		
-		Assert.assertEquals("Successful message should be displayed", "User Updated Successfully", message);
+			Document result = UserServiceTest.userService.getAllUsers().get(0);
+			
+Document input = Document.parse(testData.JSON_LONG_UPDATED);
+			
+			Assert.assertEquals("both should be same", input.toJson(), result.toJson().toString());
+		}
 	}
 	
 	/**
 	 * Negative Test method for {@link User.UserService#updateUser(java.lang.String)}.
 	 */
 	public void testUpdateInvalidUser() {
-		UserServiceTest.userService.createUser(testData.JSON_LONG);
+		try {
+			UserServiceTest.userService.createUser(testData.JSON_LONG);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-		String message = UserServiceTest.userService.updateUser(testData.JSON_SHORT);
+		try {
+			UserServiceTest.userService.updateUser(testData.JSON_SHORT);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
 		
-		Assert.assertEquals("null should be displayed", null, message);
+			Document result = UserServiceTest.userService.getAllUsers().get(0);
+			Document input = Document.parse(testData.JSON_LONG);
+			
+			Assert.assertEquals("both should be same", input.toJson(), result.toJson().toString());
+		}
+		
+		
 	}
 	
 	/**
 	 * Negative Test method for {@link User.UserService#updateUser(java.lang.String)}.
 	 */
 	public void testUpdateEmptyUser() {
-		UserServiceTest.userService.createUser(testData.JSON_LONG);
+		try {
+			UserServiceTest.userService.createUser(testData.JSON_LONG);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-		String message = UserServiceTest.userService.updateUser("");
+		try {
+			UserServiceTest.userService.updateUser("");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
 		
-		Assert.assertEquals("null should be displayed", null, message);
+			Document result = UserServiceTest.userService.getAllUsers().get(0);
+			Document input = Document.parse(testData.JSON_LONG);
+			
+			Assert.assertEquals("both should be same", input.toJson(), result.toJson().toString());
+		}
 	}
 
 	/**

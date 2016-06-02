@@ -41,24 +41,18 @@ public class UserService {
 	 * @return successful {@code String} if the details are inserted
 	 * 	       error message {@code String} if there is an error 
 	 */
-	public String createUser(String json){
+	public void createUser(String json) throws Exception{
 		Document doc = null;
 		if (json != "" && json != null){
 			doc = Document.parse(json);
-			if(doc.get("id") == null){
-				return "Error: Invalid input";
+			if(doc.get("id") != null){
+				this.db.insertOne(doc);
+			}else{
+				throw new Exception("Invalid Input");
 			}
 		}else{
-			return "Error: empty input";
+			throw new Exception("Empty Input");
 		}
-		
-		try{
-			this.db.insertOne(doc);
-			return "User created successfully";
-		}catch(Exception e){
-			return e.getMessage();
-		}
-		
 		
 	}
 	
@@ -88,13 +82,13 @@ public class UserService {
 	 * 		   null {@code null} if the user is not present in the database
 	 *
 	 */
-	public String updateUser(String json){
+	public void updateUser(String json) throws Exception{
 		Document doc = null;
 		
 		if( json != "" && json != null){
 			doc = Document.parse(json);
 		}else{
-			return null;
+			throw new Exception("Input cannot be empty");
 		}
 		
 		String id = doc.get("id").toString();
@@ -110,10 +104,8 @@ public class UserService {
 		if(userDoc != null){
 			this.db.updateOne(userDoc, new Document("$set",doc));
 		}else{
-			return null;
+			throw new Exception("User not Found");
 		}
-		
-		return "User Updated Successfully";
 	}
 	
 	/**

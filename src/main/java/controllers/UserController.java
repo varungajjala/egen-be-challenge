@@ -17,12 +17,20 @@ import utils.JsonTransformer;
  */
 public class UserController {
 	public UserController(final UserService userService){
-		get("/createUser/:user", new Route() {
 
+		put("/createUser", new Route() {
+			
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
-				String user = request.params(":user");
-				return new ResponseError(userService.createUser(user));
+				try{
+					userService.createUser(request.body());
+					response.status(200);
+					return new ResponseError("User created successfully");
+				}catch(Exception ex){
+					response.status(400);
+					return new ResponseError(ex.getMessage());
+				}
+				
 			}
 			
 			
@@ -32,35 +40,41 @@ public class UserController {
 
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
+				response.status(200);
 				return userService.getAllUsers();
 			}
 			
 		}, new JsonTransformer());
 		
-		get("/updateUser/:user", new Route() {
+		put("/updateUser", new Route() {
 
 			@Override
 			public Object handle(Request request, Response response) throws Exception {
-				String user = request.params(":user");
-				String updStatus = userService.updateUser(user);
-				
-				if(updStatus != null){
-					return new ResponseError(updStatus);
+				try{
+					userService.updateUser(request.body());
+					response.status(200);
+					return new ResponseError("Updated Successfully");
+				}catch (Exception ex){
+					response.status(404);
+					return new ResponseError(ex.getMessage());
 				}
-				response.status(404);
-				return new ResponseError("Error 404: User not found"); 
+				
+				 
 			}
 			
 		}, new JsonTransformer());
-
-		get("/hello", new Route() {
-
+		
+		get("/", new Route() {
+			
 			@Override
-			public Object handle(Request arg0, Response arg1) throws Exception {
-				return "Hello World";
+			public Object handle(Request request, Response response) throws Exception {
+				response.status(404);
+				return new ResponseError("Not found");
 			}
 			
+			
 		}, new JsonTransformer());
+
 		after( new Filter(){
 
 			@Override

@@ -9,9 +9,11 @@ import controllers.UserController;
  */
 public class App {
 
+	public App(String dbName){
+		new UserController(new UserService(dbName));
+	}
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new UserController(new UserService("testuser"));
+		new App("egen");
 	}
 
 }
