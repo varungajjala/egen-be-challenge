@@ -47,8 +47,8 @@ public class UserServiceTest extends TestCase {
 	 */
 	public void testCreateUser() {
 
-        String message = UserServiceTest.userService.createUser(testData.VALID_LONG_JSON);
-        String message1 = UserServiceTest.userService.createUser(testData.VALID_SHORT_JSON);
+        String message = UserServiceTest.userService.createUser(testData.JSON_LONG);
+        String message1 = UserServiceTest.userService.createUser(testData.JSON_SHORT);
         
         Assert.assertEquals("should display successfull message", "User created successfully", message);
         
@@ -76,7 +76,7 @@ public class UserServiceTest extends TestCase {
 	public void testGetAllUsers() {
 		Assert.assertEquals("Intially should be equal to 0", 0, UserServiceTest.userService.getAllUsers().size());
 		
-		UserServiceTest.userService.createUser(testData.VALID_LONG_JSON);
+		UserServiceTest.userService.createUser(testData.JSON_LONG);
 		
 		Assert.assertEquals("After 1 insert should be 1", 1, UserServiceTest.userService.getAllUsers().size());		
 		
@@ -86,9 +86,9 @@ public class UserServiceTest extends TestCase {
 	 * Test method for {@link User.UserService#updateUser(java.lang.String)}.
 	 */
 	public void testUpdateUser() {
-		UserServiceTest.userService.createUser(testData.VALID_LONG_JSON);
+		UserServiceTest.userService.createUser(testData.JSON_LONG);
 		
-		String message = UserServiceTest.userService.updateUser(testData.VALID_LONG_JSON_UPDATED);
+		String message = UserServiceTest.userService.updateUser(testData.JSON_LONG_UPDATED);
 		
 		Assert.assertEquals("Successful message should be displayed", "User Updated Successfully", message);
 	}
@@ -97,9 +97,9 @@ public class UserServiceTest extends TestCase {
 	 * Negative Test method for {@link User.UserService#updateUser(java.lang.String)}.
 	 */
 	public void testUpdateInvalidUser() {
-		UserServiceTest.userService.createUser(testData.VALID_LONG_JSON);
+		UserServiceTest.userService.createUser(testData.JSON_LONG);
 		
-		String message = UserServiceTest.userService.updateUser(testData.VALID_SHORT_JSON);
+		String message = UserServiceTest.userService.updateUser(testData.JSON_SHORT);
 		
 		Assert.assertEquals("null should be displayed", null, message);
 	}
@@ -108,7 +108,7 @@ public class UserServiceTest extends TestCase {
 	 * Negative Test method for {@link User.UserService#updateUser(java.lang.String)}.
 	 */
 	public void testUpdateEmptyUser() {
-		UserServiceTest.userService.createUser(testData.VALID_LONG_JSON);
+		UserServiceTest.userService.createUser(testData.JSON_LONG);
 		
 		String message = UserServiceTest.userService.updateUser("");
 		
