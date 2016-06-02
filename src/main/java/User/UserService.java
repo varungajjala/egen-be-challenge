@@ -38,8 +38,7 @@ public class UserService {
 	 * createUser Service - creates user if the id is not present
 	 * 
 	 * @param json {@code String} the user details to enter into the database
-	 * @return successful {@code String} if the details are inserted
-	 * 	       error message {@code String} if there is an error 
+	 * @return void
 	 */
 	public void createUser(String json) throws Exception{
 		Document doc = null;
@@ -78,8 +77,7 @@ public class UserService {
 	 * updateUser Service - updates the user details if the user is already present
 	 * 
 	 * @param json {@code String} the user details to update the user details already in the database
-	 * @return Successful {@code String} if updated.
-	 * 		   null {@code null} if the user is not present in the database
+	 * @return void
 	 *
 	 */
 	public void updateUser(String json) throws Exception{
@@ -125,4 +123,5 @@ public class UserService {
 		return collection;
 		
 	}
+
 }

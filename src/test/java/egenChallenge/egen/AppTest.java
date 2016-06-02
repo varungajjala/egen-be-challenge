@@ -57,6 +57,24 @@ public class AppTest extends TestCase {
 	}
 	
 	/**
+	 * Test negative method for {@link egenChallenge.egen.App#main(java.lang.String[])}.
+	 */
+	public void testMainNegative() {
+        
+        String response = this.execUrl("/createUser", null, "PUT");
+        Assert.assertEquals("User created", "400", response);
+
+		String response1 = this.execUrl("/getAllUsers", null, "GET");
+        Assert.assertEquals("1 user should match", "[]", response1);
+        
+        this.execUrl("/createUser", testData.JSON_LONG, "PUT");
+
+        String response3 = this.execUrl("/updateUser", testData.JSON_SHORT, "PUT");
+        Assert.assertEquals("User Should not be updated", "404", response3);
+
+	}
+	
+	/**
      * Rest client connection
      *
      */
@@ -77,17 +95,15 @@ public class AppTest extends TestCase {
 	    		os.flush();
     		}
 
-    		/*if (conn.getResponseCode() != 200) {
-    			throw new RuntimeException("Failed : HTTP error code : "
-    				+ conn.getResponseCode());
-    		}*/
+    		if (conn.getResponseCode() != 200) {
+    			return String.valueOf(conn.getResponseCode());
+    		}
 
     		BufferedReader br = new BufferedReader(new InputStreamReader(
     				(conn.getInputStream())));
 
     		String output;
     		
-    		System.out.println("Output from Server .... \n");
     		while ((output = br.readLine()) != null) {
     			sb.append(output);
     		}

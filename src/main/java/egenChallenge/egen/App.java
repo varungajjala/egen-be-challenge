@@ -4,6 +4,8 @@ import User.UserService;
 import controllers.UserController;
 
 /**
+ * Main Application for the user services
+ * 
  * @author Varun
  *
  */
